@@ -1,8 +1,8 @@
-// ConsoleApplication20.cpp : Defines the entry point for the console application.
-//
-
-#include "stdafx.h"
-#include <Windows.h>
+#if defined(_MSC_VER)
+	#include <Windows.h>
+#elif defined(__GNUC__) 
+	#define Sleep(x) sleep(x)
+#endif
 #include "HRTimer.h"
 
 int main()
