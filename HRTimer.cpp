@@ -18,9 +18,12 @@ namespace HRTimer
 		mEnd = std::chrono::high_resolution_clock::now();
 	};
 
-	void HRTimer::Lap()
+	void HRTimer::Lap(int line)
 	{
-		mLaps.push_back(HiResClk::now());
+		LapMarker currentMark;
+		currentMark.tp = HiResClk::now();
+		currentMark.line = std::to_string(line);
+		mLaps.push_back(currentMark);
 	};
 
 	void HRTimer::PrintLapTimesDbl(std::string msg)
@@ -28,28 +31,28 @@ namespace HRTimer
 		TimePoint start = mStart;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << msg << "Lap time: " << GetDeltaTimeInDbl(start, lap) << " seconds" << std::endl;
-			start = lap;
+			std::cout << std::setprecision(3) << msg << " Line:" << lap.line << " Lap time: " << GetDeltaTimeInDbl(start, lap.tp) << " seconds" << std::endl;
+			start = lap.tp;
 		}
 	}
 
-	void HRTimer::PrintLapTimes(std::string msg)
+	void HRTimer::PrintLapTimes(std::string funcName)
 	{
 		TimePoint start = mStart;
 		std::string type;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << msg << " - Lap time: " << GetDeltaTime(start, lap, type) << type << std::endl;
-			start = lap;
+			std::cout << std::setprecision(3) << funcName << " Line: " << lap.line << " - Lap time: " << GetDeltaTime(start, lap.tp, type) << type << std::endl;
+			start = lap.tp;
 		}
 	}
 
-	void HRTimer::PrintElapsedTimeDbl(std::string msg)
+	void HRTimer::PrintElapsedTimeDbl(std::string funcName)
 	{
 		Stop();
-		if (msg.length() > 1)
-			msg.append(" ");
-		std::cout << std::setprecision(3) << msg << "Elapsed time: " << GetElapsedTimeInDbl() << " seconds" << std::endl;
+		if (funcName.length() > 1)
+			funcName.append(" ");
+		std::cout << std::setprecision(3) << funcName << "Elapsed time: " << GetElapsedTimeInDbl() << " seconds" << std::endl;
 	}
 
 	// Prints ET in most reasonable format from nano Seconds to minutes

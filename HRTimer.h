@@ -1,4 +1,5 @@
 #pragma once
+
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -8,13 +9,14 @@
 namespace HRTimer
 {
 	using TimePoint		= std::chrono::high_resolution_clock::time_point;
+	using LapMarker		= struct { TimePoint tp; std::string line; };
 	using DurationDbl	= std::chrono::duration<double>;
 	using DurationSecs	= long long;
 	using HiResClk		= std::chrono::high_resolution_clock;
 	using DurationMs	= std::chrono::duration<float, std::milli>;
 	using DurationUs	= std::chrono::duration<float, std::micro>;
 	using DurationNs	= std::chrono::duration<float, std::nano>;
-	using Laps			= std::vector<TimePoint>;
+	using Laps			= std::vector<LapMarker>;
 
 	class HRTimer
 	{
@@ -22,7 +24,7 @@ namespace HRTimer
 		void Start();
 		void Reset();
 		void Stop();
-		void Lap();
+		void Lap(int lineNo = 0);
 		void PrintLapTimesDbl(std::string msg = "");
 		void PrintLapTimes(std::string msg = "");
 		void PrintElapsedTimeDbl(std::string msg = "");

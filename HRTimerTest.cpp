@@ -27,22 +27,23 @@ int main()
 	tmr.Reset();
 	Sleep(0);
 	// Save a lap
-	tmr.Lap();
+	tmr.Lap(__LINE__);
 	Sleep(1);
 	// Save a lap
-	tmr.Lap();  
+	tmr.Lap(__LINE__);
 	Sleep(10);
 	// Save a lap
-	tmr.Lap();
+	tmr.Lap(__LINE__);
 	Sleep(100);
 	// Save a lap
-	tmr.Lap();
+	tmr.Lap(__LINE__);
 	Sleep(300);
 	// Save a lap
-	tmr.Lap();
+	tmr.Lap(__LINE__);
 	Sleep(2020);
 	// Save a lap
-	tmr.Lap();
+	tmr.Lap(__LINE__);
+
 	// Print result of all laps as double
 	tmr.PrintLapTimesDbl();
 	// Print result of all laps as nano, micro, milli, etc
