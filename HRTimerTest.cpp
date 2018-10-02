@@ -1,8 +1,3 @@
-#if defined(_MSC_VER)
-	#include <Windows.h>
-#elif defined(__GNUC__) 
-	#define Sleep(x) sleep(x)
-#endif
 #include "HRTimer.h"
 
 int main()
@@ -10,37 +5,34 @@ int main()
 	HRTimer::HRTimer tmr;
 	// Start timer
 	tmr.Start();
-	// Time execution of a nop
-	_asm nop;
+	// Time execution of a function
+	puts("Hello World");
 	// Print result as nano, micro or milli 
-	tmr.PrintElapsedTime("Nop");
+	tmr.PrintElapsedTime("puts()");
 	// Print result as a double
-	tmr.PrintElapsedTimeDbl("Nop");
+	tmr.PrintElapsedTimeDbl("puts()");
 	// Reset timer
 	tmr.Reset();
 	// Sleep for 0
-	Sleep(0);
+	HRSleep(0);
 	// Print result
 	tmr.PrintElapsedTime("Function Call");
 	// Reset timer and test using lap functionality
 	// for various sleep periods
 	tmr.Reset();
-	Sleep(0);
+	HRSleep(1);
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(1);
+	HRSleep(10);
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(10);
+	HRSleep(100);
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(100);
+	HRSleep(333);
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(300);
-	// Save a lap
-	tmr.Lap(__LINE__);
-	Sleep(2020);
+	HRSleep(2020);
 	// Save a lap
 	tmr.Lap(__LINE__);
 

@@ -5,6 +5,10 @@
 #include <string>
 #include <iomanip>
 #include <vector>
+#include <thread>
+
+// Cross platform sleep
+#define HRSleep(x) std::this_thread::sleep_for(std::chrono::milliseconds(x));
 
 namespace HRTimer
 {
