@@ -23,7 +23,7 @@ The Lap method will save line numbers and print them out when the print method i
   
   Outputs:
   
-Nop Elapsed time: 400 NanoSeconds
+puts() Elapsed time: 400 NanoSeconds
 
 main Line: 21 - Lap time: 300 NanoSeconds
 
