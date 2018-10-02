@@ -6,22 +6,25 @@ The Lap method will save line numbers and print them out when the print method i
 	HRTimer::HRTimer tmr;
 	// Start timer
 	tmr.Start();
-	// Time execution of a nop
-	_asm nop;
+	// Time execution of puts()
+	puts("Hello World");
 	// Print result as nano, micro or milli 
-	tmr.PrintElapsedTime("Nop");
+	tmr.PrintElapsedTime("puts()");
 	// Reset timer
 	tmr.Reset();
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(1);
+	HRleep(1);
 	// Save a lap
 	tmr.Lap(__LINE__);
-	Sleep(10);
+	HRSleep(10);
 	// Print result of all laps as nano, micro, milli, etc
 	tmr.PrintLapTimes(__FUNCTION__);
   
   Outputs:
+  
 Nop Elapsed time: 400 NanoSeconds
+
 main Line: 21 - Lap time: 300 NanoSeconds
+
 main Line: 24 - Lap time: 1247 MicroSeconds
