@@ -1,4 +1,6 @@
 #include "HRTimer.h"
+// Hi Resolution timer. Cross-platform Standard C++ 11. Tested on MSVC 2015, Clange 9.0 and GCC 8.0
+// Copyright Bruce D Wedding 2018
 
 namespace HRTimer
 {
