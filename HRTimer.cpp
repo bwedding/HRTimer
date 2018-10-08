@@ -1,6 +1,4 @@
 #include "HRTimer.h"
-// Hi Resolution timer. Cross-platform Standard C++ 11. Tested on MSVC 2015, Clange 9.0 and GCC 8.0
-// Copyright Bruce D Wedding 2018
 
 namespace HRTimer
 {
@@ -33,7 +31,7 @@ namespace HRTimer
 		TimePoint start = mStart;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << msg << " Line:" << lap.line << " Lap time: " << GetDeltaTimeInDbl(start, lap.tp) << " seconds" << std::endl;
+			std::cout << std::setprecision(3) << msg << "Line: " << lap.line << " Lap time: " << GetDeltaTimeInDbl(start, lap.tp) << " seconds" << std::endl;
 			start = lap.tp;
 		}
 	}
@@ -44,7 +42,7 @@ namespace HRTimer
 		std::string type;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << funcName << " Line: " << lap.line << " - Lap time: " << GetDeltaTime(start, lap.tp, type) << type << std::endl;
+			std::cout << std::setprecision(3) << funcName << "Line: " << lap.line << " - Lap time: " << GetDeltaTime(start, lap.tp, type) << type << std::endl;
 			start = lap.tp;
 		}
 	}
@@ -59,7 +57,7 @@ namespace HRTimer
 
 	// Prints ET in most reasonable format from nano Seconds to minutes
 	// Optionally prints a passed in message
-	void HRTimer::PrintElapsedTime(std::string msg)
+	void HRTimer::AutoPrintElapsedTime(std::string msg)
 	{
 		Stop();
 		std::string type = " NanoSeconds";
@@ -123,6 +121,11 @@ namespace HRTimer
 	{
 		return std::chrono::duration_cast<DurationDbl>(end - start).count();
 	}
+
+	void HRTimer::HRSleep(std::chrono::milliseconds mSec) 
+	{ 
+		std::this_thread::sleep_for(std::chrono::milliseconds(mSec)); 
+	};
 
 	DurationSecs HRTimer::GetDeltaTime(TimePoint &start, TimePoint &end, std::string &type)
 	{

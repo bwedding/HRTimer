@@ -1,6 +1,4 @@
 #include "HRTimer.h"
-// Hi Resolution timer. Cross-platform Standard C++ 11. Tested on MSVC 2015, Clange 9.0 and GCC 8.0
-// Copyright Bruce D Wedding 2018
 
 int main()
 {
@@ -10,31 +8,31 @@ int main()
 	// Time execution of a function
 	puts("Hello World");
 	// Print result as nano, micro or milli 
-	tmr.PrintElapsedTime("puts()");
+	tmr.AutoPrintElapsedTime("puts()");
 	// Print result as a double
 	tmr.PrintElapsedTimeDbl("puts()");
 	// Reset timer
 	tmr.Reset();
 	// Sleep for 0
-	HRSleep(0);
+	tmr.HRSleep(std::chrono::milliseconds(0));
 	// Print result
-	tmr.PrintElapsedTime("Function Call");
+	tmr.AutoPrintElapsedTime("Function Call");
 	// Reset timer and test using lap functionality
 	// for various sleep periods
 	tmr.Reset();
-	HRSleep(1);
+	tmr.HRSleep(std::chrono::milliseconds(1));
 	// Save a lap
 	tmr.Lap(__LINE__);
-	HRSleep(10);
+	tmr.HRSleep(std::chrono::milliseconds(10));
 	// Save a lap
 	tmr.Lap(__LINE__);
-	HRSleep(100);
+	tmr.HRSleep(std::chrono::milliseconds(100));
 	// Save a lap
 	tmr.Lap(__LINE__);
-	HRSleep(333);
+	tmr.HRSleep(std::chrono::milliseconds(333));
 	// Save a lap
 	tmr.Lap(__LINE__);
-	HRSleep(2020);
+	tmr.HRSleep(std::chrono::milliseconds(2020));
 	// Save a lap
 	tmr.Lap(__LINE__);
 
@@ -42,6 +40,14 @@ int main()
 	tmr.PrintLapTimesDbl();
 	// Print result of all laps as nano, micro, milli, etc
 	tmr.PrintLapTimes(__FUNCTION__);
+
+	tmr.Reset();
+	tmr.HRSleep(std::chrono::milliseconds(1333));
+
+	tmr.PrintElapsedTimeType<std::chrono::nanoseconds>(__FUNCTION__);
+	tmr.PrintElapsedTimeType<std::chrono::microseconds>(__FUNCTION__);
+	tmr.PrintElapsedTimeType<std::chrono::milliseconds>(__FUNCTION__);
+	tmr.PrintElapsedTimeType<std::chrono::seconds>(__FUNCTION__);
 
 	return 0;
 }

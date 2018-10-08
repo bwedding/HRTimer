@@ -1,17 +1,10 @@
 #pragma once
-
-// Hi Resolution timer. Cross-platform Standard C++ 11. Tested on MSVC 2015, Clange 9.0 and GCC 8.0
-// Copyright Bruce D Wedding 2018
-
 #include <chrono>
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <vector>
 #include <thread>
-
-// Cross platform sleep
-#define HRSleep(x) std::this_thread::sleep_for(std::chrono::milliseconds(x));
 
 namespace HRTimer
 {
@@ -35,7 +28,44 @@ namespace HRTimer
 		void PrintLapTimesDbl(std::string msg = "");
 		void PrintLapTimes(std::string msg = "");
 		void PrintElapsedTimeDbl(std::string msg = "");
-		void PrintElapsedTime(std::string msg = "");
+		void AutoPrintElapsedTime(std::string msg = "");
+		// Cross platform sleep provided for convenience
+		void HRSleep(std::chrono::milliseconds mSec);
+
+		template<typename T2>
+		void PrintElapsedTimeType(std::string msg)
+		{
+			Stop();
+			
+			std::string type;
+			
+			switch (switch_value<T2>::value )
+			{
+			case 1:
+				type = " NanoSeconds";
+				break;
+			case 2:
+				type = " MicroSeconds";
+				break;
+			case 3:
+				type = " MilliSeconds";
+				break;
+			case 4:
+				type = " Seconds";
+				break;
+			case 5:
+				type = " Minutes";
+				break;
+			default:  
+				// We can't ever hit this because the template won't
+				// compile with an invalid type
+				return;
+			}
+
+			if (msg.length() > 1)
+				msg.append(" ");
+			std::cout << msg << "Elapsed time: " << GetTimeinSecsType<T2>() << type << std::endl;
+		};
 
 	private:
 		DurationSecs	GetTimeInUSecs(void);
@@ -46,6 +76,46 @@ namespace HRTimer
 		DurationSecs	GetDeltaTime(TimePoint &start, TimePoint &end, std::string &type);
 		double			GetElapsedTimeInDbl(void);
 		double			GetDeltaTimeInDbl(TimePoint &start, TimePoint &end);
+
+		// Templates
+		template<typename T1>
+		DurationSecs GetTimeinSecsType()
+		{
+			return std::chrono::duration_cast<T1>(mEnd - mStart).count();
+		}
+
+		template<typename T>
+		struct switch_value {};
+
+		template<>
+		struct switch_value<std::chrono::nanoseconds>
+		{
+			enum { value = 1 };
+		};
+
+		template<>
+		struct switch_value<std::chrono::microseconds>
+		{
+			enum { value = 2 };
+		};
+
+		template<>
+		struct switch_value<std::chrono::milliseconds>
+		{
+			enum { value = 3 };
+		};
+
+		template<>
+		struct switch_value<std::chrono::seconds>
+		{
+			enum { value = 4 };
+		};
+
+		template<>
+		struct switch_value<std::chrono::minutes>
+		{
+			enum { value = 5 };
+		};
 
 		// Member vars
 		TimePoint	mStart;
