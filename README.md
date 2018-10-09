@@ -1,9 +1,9 @@
 # HRTimer
-Standard C++ High Resolution Timer with lap functionality. Accurate to within nanoseconds. The print routines automatically scale the result to nanoseconds, microseconds, milliseconds, seconds or minutes, depending on the size of the value.
+Standard C++ High Resolution Timer with lap functionality. Accurate to within nanoseconds (system dependent). The print routines automatically scale the result to nanoseconds, microseconds, milliseconds, seconds or minutes, depending on the size of the value.
 
 The Lap method will save line numbers and print them out when the print method is called. e.g.
 
-	HRTimer::HRTimer tmr;
+	HRTimer::HiResTimer tmr;
 	// Start timer
 	tmr.Start();
 	// Time execution of puts()
