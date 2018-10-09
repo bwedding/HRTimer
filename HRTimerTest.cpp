@@ -7,7 +7,7 @@ void emptyFunc(void)
 
 int main()
 {
-	HRTimer::HRTimer tmr;
+	HRTimer::HiResTimer tmr;
 	// Start timer
 	tmr.Start();
 	// Time execution of a function

@@ -4,7 +4,7 @@ namespace HRTimer
 {
 	// Clears all current laps and takes
 	// a fresh timestamp. 
-	void HRTimer::Start()
+	void HiResTimer::Start()
 	{
 		mLaps.clear();
 		mStart = mEnd = HiResClk::now();
@@ -12,14 +12,14 @@ namespace HRTimer
 
 	// Resets timer to start a fresh set
 	// of measurements
-	void HRTimer::Reset()
+	void HiResTimer::Reset()
 	{
 		Start();
 	};
 
 	// Stops the timer, which is to say, it
 	// takes and ending timestamp
-	void HRTimer::Stop()
+	void HiResTimer::Stop()
 	{
 		mEnd = std::chrono::high_resolution_clock::now();
 	};
@@ -27,7 +27,7 @@ namespace HRTimer
 	// Saves a LapMarker, which is a line number and timestamp at this moment
 	// To function as intended, this should be called using the __LINE__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HRTimer::Lap(int line)
+	void HiResTimer::Lap(int line)
 	{
 		LapMarker currentMark;
 		currentMark.tp = HiResClk::now();
@@ -36,7 +36,7 @@ namespace HRTimer
 	};
 
 	// Prints all the saved Lap times as a double, with line numbers
-	void HRTimer::PrintLapTimesDbl(std::string msg)
+	void HiResTimer::PrintLapTimesDbl(std::string msg)
 	{
 		TimePoint start = mStart;
 		for (auto lap : mLaps)
@@ -49,7 +49,7 @@ namespace HRTimer
 	// Prints all the saved Lap times, scaled to the appropriate seconds type, with line numbers
 	// To function as intended, this should be called using the __FUNC__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HRTimer::PrintLapTimes(std::string funcName)
+	void HiResTimer::PrintLapTimes(std::string funcName)
 	{
 		TimePoint start = mStart;
 		std::string type;
@@ -63,7 +63,7 @@ namespace HRTimer
 	// Prints all the saved Lap times as a double, with line numbers
 	// To function as intended, this should be called using the __FUNC__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HRTimer::PrintElapsedTimeDbl(std::string funcName)
+	void HiResTimer::PrintElapsedTimeDbl(std::string funcName)
 	{
 		Stop();
 		if (funcName.length() > 1)
@@ -73,7 +73,7 @@ namespace HRTimer
 
 	// Prints ET in most reasonable format from nanoseconds to minutes
 	// Optionally prints a passed in message
-	void HRTimer::AutoPrintElapsedTime(std::string msg)
+	void HiResTimer::AutoPrintElapsedTime(std::string msg)
 	{
 		Stop();
 		std::string type = " NanoSeconds";
@@ -103,44 +103,44 @@ namespace HRTimer
 		std::cout << msg << "Elapsed time: " << tmp << type << std::endl;
 	}
 
-	DurationSecs HRTimer::GetTimeInUSecs(void)
+	DurationSecs HiResTimer::GetTimeInUSecs(void)
 	{
 		return std::chrono::duration_cast<std::chrono::microseconds>(mEnd - mStart).count();
 	}
 
-	DurationSecs HRTimer::GetTimeInNSecs(void)
+	DurationSecs HiResTimer::GetTimeInNSecs(void)
 	{
 		return std::chrono::duration_cast<std::chrono::nanoseconds>(mEnd - mStart).count();
 	}
 
-	DurationSecs HRTimer::GetTimeInSecs(void)
+	DurationSecs HiResTimer::GetTimeInSecs(void)
 	{
 		return std::chrono::duration_cast<std::chrono::seconds>(mEnd - mStart).count();
 	}
 
-	DurationSecs HRTimer::GetTimeInMinutes(void)
+	DurationSecs HiResTimer::GetTimeInMinutes(void)
 	{
 		return std::chrono::duration_cast<std::chrono::minutes>(mEnd - mStart).count();
 	}
 
-	DurationSecs HRTimer::GetTimeInMSecs(void)
+	DurationSecs HiResTimer::GetTimeInMSecs(void)
 	{
 		return std::chrono::duration_cast<std::chrono::milliseconds>(mEnd - mStart).count();
 	}
 
-	double HRTimer::GetElapsedTimeInDbl(void)
+	double HiResTimer::GetElapsedTimeInDbl(void)
 	{
 		return std::chrono::duration_cast<DurationDbl>(mEnd - mStart).count();
 	}
 
-	double HRTimer::GetDeltaTimeInDbl(TimePoint &start, TimePoint &end)
+	double HiResTimer::GetDeltaTimeInDbl(TimePoint &start, TimePoint &end)
 	{
 		return std::chrono::duration_cast<DurationDbl>(end - start).count();
 	}
 
 	// A standard C++, platform independent sleep method
 	// provided for portability and convenience
-	void HRTimer::HRSleep(milliSecs mSec)
+	void HiResTimer::HRSleep(milliSecs mSec)
 	{ 
 		std::this_thread::sleep_for(milliSecs(mSec));
 	};
@@ -150,7 +150,7 @@ namespace HRTimer
 	// This is because the loss of precision may not be desired.
 	// e.g. If the delta is 1743 nanoseconds, the end user would probably prefer 
 	// seeing that precise value instead of 2 microseconds
-	DurationSecs HRTimer::GetDeltaTime(TimePoint &start, TimePoint &end, std::string &type)
+	DurationSecs HiResTimer::GetDeltaTime(TimePoint &start, TimePoint &end, std::string &type)
 	{
 		DurationSecs tp;
 		Stop();

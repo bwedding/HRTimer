@@ -19,7 +19,7 @@ namespace HRTimer
 	using Laps			= std::vector<LapMarker>;
 	using milliSecs		= std::chrono::milliseconds;
 
-	class HRTimer
+	class HiResTimer
 	{
 	public:
 		void Start();
