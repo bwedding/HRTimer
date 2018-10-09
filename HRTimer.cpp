@@ -2,22 +2,31 @@
 
 namespace HRTimer
 {
+	// Clears all current laps and takes
+	// a fresh timestamp. 
 	void HRTimer::Start()
 	{
 		mLaps.clear();
 		mStart = mEnd = HiResClk::now();
 	};
 
+	// Resets timer to start a fresh set
+	// of measurements
 	void HRTimer::Reset()
 	{
 		Start();
 	};
 
+	// Stops the timer, which is to say, it
+	// takes and ending timestamp
 	void HRTimer::Stop()
 	{
 		mEnd = std::chrono::high_resolution_clock::now();
 	};
 
+	// Saves a LapMarker, which is a line number and timestamp at this moment
+	// To function as intended, this should be called using the __LINE__ macro
+	// so that it will print the line number where the timepoint is measured
 	void HRTimer::Lap(int line)
 	{
 		LapMarker currentMark;
@@ -26,6 +35,7 @@ namespace HRTimer
 		mLaps.push_back(currentMark);
 	};
 
+	// Prints all the saved Lap times as a double, with line numbers
 	void HRTimer::PrintLapTimesDbl(std::string msg)
 	{
 		TimePoint start = mStart;
@@ -36,6 +46,9 @@ namespace HRTimer
 		}
 	}
 
+	// Prints all the saved Lap times, scaled to the appropriate seconds type, with line numbers
+	// To function as intended, this should be called using the __FUNC__ macro
+	// so that it will print the line number where the timepoint is measured
 	void HRTimer::PrintLapTimes(std::string funcName)
 	{
 		TimePoint start = mStart;
@@ -47,6 +60,9 @@ namespace HRTimer
 		}
 	}
 
+	// Prints all the saved Lap times as a double, with line numbers
+	// To function as intended, this should be called using the __FUNC__ macro
+	// so that it will print the line number where the timepoint is measured
 	void HRTimer::PrintElapsedTimeDbl(std::string funcName)
 	{
 		Stop();
@@ -55,7 +71,7 @@ namespace HRTimer
 		std::cout << std::setprecision(3) << funcName << "Elapsed time: " << GetElapsedTimeInDbl() << " seconds" << std::endl;
 	}
 
-	// Prints ET in most reasonable format from nano Seconds to minutes
+	// Prints ET in most reasonable format from nanoseconds to minutes
 	// Optionally prints a passed in message
 	void HRTimer::AutoPrintElapsedTime(std::string msg)
 	{
@@ -122,11 +138,18 @@ namespace HRTimer
 		return std::chrono::duration_cast<DurationDbl>(end - start).count();
 	}
 
-	void HRTimer::HRSleep(std::chrono::milliseconds mSec) 
+	// A standard C++, platform independent sleep method
+	// provided for portability and convenience
+	void HRTimer::HRSleep(milliSecs mSec)
 	{ 
-		std::this_thread::sleep_for(std::chrono::milliseconds(mSec)); 
+		std::this_thread::sleep_for(milliSecs(mSec));
 	};
 
+	// Returns a duration delta between 2 timepoints of the most appropriate type
+	// Note, it does not break types on exact boundaries but a bit beyond (2000 units). 
+	// This is because the loss of precision may not be desired.
+	// e.g. If the delta is 1743 nanoseconds, the end user would probably prefer 
+	// seeing that precise value instead of 2 microseconds
 	DurationSecs HRTimer::GetDeltaTime(TimePoint &start, TimePoint &end, std::string &type)
 	{
 		DurationSecs tp;

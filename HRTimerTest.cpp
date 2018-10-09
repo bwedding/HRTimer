@@ -1,5 +1,10 @@
 #include "HRTimer.h"
 
+void emptyFunc(void)
+{
+	return;
+}
+
 int main()
 {
 	HRTimer::HRTimer tmr;
@@ -13,12 +18,16 @@ int main()
 	tmr.PrintElapsedTimeDbl("puts()");
 	// Reset timer
 	tmr.Reset();
-	// Sleep for 0
-	tmr.HRSleep(std::chrono::milliseconds(0));
+	// Time function call overhead
+	emptyFunc();
 	// Print result
-	tmr.AutoPrintElapsedTime("Function Call");
+	tmr.AutoPrintElapsedTime("Empty Function Call");
+
 	// Reset timer and test using lap functionality
-	// for various sleep periods
+	// for various sleep periods. Note, HRSleep is 
+	// a standard c++ sleep routine which may be used
+	// in place of your own platform specific sleep() 
+	// function for portability
 	tmr.Reset();
 	tmr.HRSleep(std::chrono::milliseconds(1));
 	// Save a lap
@@ -38,16 +47,19 @@ int main()
 
 	// Print result of all laps as double
 	tmr.PrintLapTimesDbl();
+
 	// Print result of all laps as nano, micro, milli, etc
 	tmr.PrintLapTimes(__FUNCTION__);
 
+	// Reset timer and then sleep for a bit and print
+	// results of user specified type
 	tmr.Reset();
 	tmr.HRSleep(std::chrono::milliseconds(1333));
 
-	tmr.PrintElapsedTimeType<std::chrono::nanoseconds>(__FUNCTION__);
-	tmr.PrintElapsedTimeType<std::chrono::microseconds>(__FUNCTION__);
-	tmr.PrintElapsedTimeType<std::chrono::milliseconds>(__FUNCTION__);
-	tmr.PrintElapsedTimeType<std::chrono::seconds>(__FUNCTION__);
+	tmr.PrintElapsedTimeType<std::chrono::nanoseconds>(__func__);
+	tmr.PrintElapsedTimeType<std::chrono::microseconds>(__func__);
+	tmr.PrintElapsedTimeType<std::chrono::milliseconds>(__func__);
+	tmr.PrintElapsedTimeType<std::chrono::seconds>(__func__);
 
 	return 0;
 }

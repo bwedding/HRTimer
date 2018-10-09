@@ -17,6 +17,7 @@ namespace HRTimer
 	using DurationUs	= std::chrono::duration<float, std::micro>;
 	using DurationNs	= std::chrono::duration<float, std::nano>;
 	using Laps			= std::vector<LapMarker>;
+	using milliSecs		= std::chrono::milliseconds;
 
 	class HRTimer
 	{
@@ -24,14 +25,23 @@ namespace HRTimer
 		void Start();
 		void Reset();
 		void Stop();
-		void Lap(int lineNo = 0);
-		void PrintLapTimesDbl(std::string msg = "");
-		void PrintLapTimes(std::string msg = "");
-		void PrintElapsedTimeDbl(std::string msg = "");
-		void AutoPrintElapsedTime(std::string msg = "");
-		// Cross platform sleep provided for convenience
-		void HRSleep(std::chrono::milliseconds mSec);
+		// Note, the intention is to call this using
+		// the __LINE__ macro to print the line number
+		// where the lap measurement was taken
+		// The default value is set to make it obvious
+		// that it's not a line number
+		void Lap(int lineNo = INT_MAX );
+		void PrintLapTimesDbl(std::string msg = "Function Not Specified");
+		void PrintLapTimes(std::string msg = "Function Not Specified");
+		void PrintElapsedTimeDbl(std::string msg = "Function Not Specified");
+		void AutoPrintElapsedTime(std::string msg = "Function Not Specified");
 
+		// Cross platform sleep provided for convenience
+		void HRSleep(milliSecs mSec);
+
+		// If you wish to NOT autoscale your time printouts,
+		// You can use this template to print the specified
+		// type, from nanoseconds to minutes
 		template<typename T2>
 		void PrintElapsedTimeType(std::string msg)
 		{
