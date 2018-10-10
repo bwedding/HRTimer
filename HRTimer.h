@@ -18,6 +18,12 @@ namespace HRTimer
 	using DurationNs	= std::chrono::duration<float, std::nano>;
 	using Laps			= std::vector<LapMarker>;
 	using milliSecs		= std::chrono::milliseconds;
+	
+	#define Lap()					_Lap(__LINE__)
+	#define PrintLapTimesDbl()		_PrintLapTimesDbl(__func__)
+	#define PrintLapTimes()			_PrintLapTimes(__func__)
+	#define PrintElapsedTimeDbl()	_PrintElapsedTimeDbl(__func__)
+	#define AutoPrintElapsedTime()	_AutoPrintElapsedTime(__func__)
 
 	class HiResTimer
 	{
@@ -25,16 +31,16 @@ namespace HRTimer
 		void Start();
 		void Reset();
 		void Stop();
-		// Note, the intention is to call this using
-		// the __LINE__ macro to print the line number
+
+		// Note: this should be called using the Lap() macro
+		// which will pass the source line number
+		// to print the line number in teh output
 		// where the lap measurement was taken
-		// The default value is set to make it obvious
-		// that it's not a line number
-		void Lap(int lineNo = INT_MAX );
-		void PrintLapTimesDbl(std::string msg = "Function Not Specified");
-		void PrintLapTimes(std::string msg = "Function Not Specified");
-		void PrintElapsedTimeDbl(std::string msg = "Function Not Specified");
-		void AutoPrintElapsedTime(std::string msg = "Function Not Specified");
+		void _Lap(int lineNo);
+		void _PrintLapTimesDbl(std::string);
+		void _PrintLapTimes(std::string);
+		void _PrintElapsedTimeDbl(std::string);
+		void _AutoPrintElapsedTime(std::string);
 
 		// Cross platform sleep provided for convenience
 		void HRSleep(milliSecs mSec);

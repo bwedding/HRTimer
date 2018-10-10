@@ -27,7 +27,7 @@ namespace HRTimer
 	// Saves a LapMarker, which is a line number and timestamp at this moment
 	// To function as intended, this should be called using the __LINE__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HiResTimer::Lap(int line)
+	void HiResTimer::_Lap(int line)
 	{
 		LapMarker currentMark;
 		currentMark.tp = HiResClk::now();
@@ -36,12 +36,12 @@ namespace HRTimer
 	};
 
 	// Prints all the saved Lap times as a double, with line numbers
-	void HiResTimer::PrintLapTimesDbl(std::string msg)
+	void HiResTimer::_PrintLapTimesDbl(std::string msg)
 	{
-		TimePoint start = mStart;
+		auto start = mStart;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << msg << "Line: " << lap.line << " Lap time: " << GetDeltaTimeInDbl(start, lap.tp) << " seconds" << std::endl;
+			std::cout << std::setprecision(3) << "Func: " << msg << "Line: " << lap.line << " Lap time: " << GetDeltaTimeInDbl(start, lap.tp) << " seconds" << std::endl;
 			start = lap.tp;
 		}
 	}
@@ -49,13 +49,13 @@ namespace HRTimer
 	// Prints all the saved Lap times, scaled to the appropriate seconds type, with line numbers
 	// To function as intended, this should be called using the __FUNC__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HiResTimer::PrintLapTimes(std::string funcName)
+	void HiResTimer::_PrintLapTimes(std::string funcName)
 	{
-		TimePoint start = mStart;
+		auto start = mStart;
 		std::string type;
 		for (auto lap : mLaps)
 		{
-			std::cout << std::setprecision(3) << funcName << "Line: " << lap.line << " - Lap time: " << GetDeltaTime(start, lap.tp, type) << type << std::endl;
+			std::cout << std::setprecision(3) << "Func: " << funcName << "Line: " << lap.line << " - Lap time: " << GetDeltaTime(start, lap.tp, type) << type << std::endl;
 			start = lap.tp;
 		}
 	}
@@ -63,21 +63,21 @@ namespace HRTimer
 	// Prints all the saved Lap times as a double, with line numbers
 	// To function as intended, this should be called using the __FUNC__ macro
 	// so that it will print the line number where the timepoint is measured
-	void HiResTimer::PrintElapsedTimeDbl(std::string funcName)
+	void HiResTimer::_PrintElapsedTimeDbl(std::string funcName)
 	{
 		Stop();
 		if (funcName.length() > 1)
 			funcName.append(" ");
-		std::cout << std::setprecision(3) << funcName << "Elapsed time: " << GetElapsedTimeInDbl() << " seconds" << std::endl;
+		std::cout << std::setprecision(3) << "Func: " << funcName << " Elapsed time: " << GetElapsedTimeInDbl() << " seconds" << std::endl;
 	}
 
 	// Prints ET in most reasonable format from nanoseconds to minutes
 	// Optionally prints a passed in message
-	void HiResTimer::AutoPrintElapsedTime(std::string msg)
+	void HiResTimer::_AutoPrintElapsedTime(std::string msg)
 	{
 		Stop();
-		std::string type = " NanoSeconds";
-		DurationSecs tmp = GetTimeInNSecs();
+		auto type = " NanoSeconds";
+		auto tmp = GetTimeInNSecs();
 		if (tmp > 2000)
 		{
 			tmp = GetTimeInUSecs();
@@ -98,9 +98,7 @@ namespace HRTimer
 				}
 			}
 		}
-		if (msg.length() > 1)
-			msg.append(" ");
-		std::cout << msg << "Elapsed time: " << tmp << type << std::endl;
+		std::cout << "Func: " << msg << " Elapsed time: " << tmp << type << std::endl;
 	}
 
 	DurationSecs HiResTimer::GetTimeInUSecs(void)
