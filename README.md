@@ -9,21 +9,21 @@ The Lap method will save line numbers and print them out when the print method i
 	// Time execution of puts()
 	puts("Hello World");
 	// Print result as nano, micro or milli 
-	tmr.PrintElapsedTime("puts()");
+	tmr.PrintElapsedTime();
 	// Reset timer
 	tmr.Reset();
 	// Save a lap
-	tmr.Lap(__LINE__);
+	tmr.Lap();
 	tmr.HRSleep(1);
 	// Save a lap
-	tmr.Lap(__LINE__);
+	tmr.Lap();
 	tmr.HRSleep(10);
 	// Print result of all laps as nano, micro, milli, etc
-	tmr.PrintLapTimes(__FUNCTION__);
+	tmr.PrintLapTimes();
   
   Outputs:
   
-puts() Elapsed time: 400 NanoSeconds
+main Elapsed time: 400 NanoSeconds
 
 main Line: 21 - Lap time: 300 NanoSeconds
 
